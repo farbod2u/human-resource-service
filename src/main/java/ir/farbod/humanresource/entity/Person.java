@@ -24,7 +24,7 @@ public class Person implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
-
+    private String idNumber;
 
     //@OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     //@JsonManagedReference

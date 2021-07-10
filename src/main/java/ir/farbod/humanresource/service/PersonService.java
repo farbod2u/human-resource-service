@@ -3,6 +3,7 @@ package ir.farbod.humanresource.service;
 import ir.farbod.humanresource.entity.Person;
 import ir.farbod.humanresource.entity.PersonSchoolGrade;
 import ir.farbod.humanresource.entity.SchoolGrade;
+import ir.farbod.humanresource.exception.EntityNotFoundException;
 import ir.farbod.humanresource.repository.PersonRepository;
 import ir.farbod.humanresource.repository.SchoolGradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,25 +39,32 @@ public class PersonService {
                 });
             }
 
-
             Person res = repository.save(entity);
             return res;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw e;
         }
     }
 
     public Person get(Long id) {
-        return repository.findById(id).get();
+        Optional<Person> byId = repository.findById(id);
+        if (byId.isPresent())
+            return byId.get();
+        else
+            throw new EntityNotFoundException(id);
     }
 
     public List<Person> getAll() {
         try {
-            return repository.findAll();
+            List<Person> all = repository.findAll();
+            if (all == null || all.isEmpty())
+                throw new EntityNotFoundException("Data not found.");
+            return all;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw e;
         }
     }
+
 }
