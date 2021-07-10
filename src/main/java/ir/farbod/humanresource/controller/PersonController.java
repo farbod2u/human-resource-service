@@ -2,6 +2,7 @@ package ir.farbod.humanresource.controller;
 
 import ir.farbod.humanresource.entity.Person;
 import ir.farbod.humanresource.service.PersonService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ public class PersonController {
         return service.get(id);
     }
 
+    @SneakyThrows
     @GetMapping
     public List<Person> getAll(){
         return service.getAll();

@@ -7,6 +7,8 @@ import ir.farbod.humanresource.exception.EntityNotFoundException;
 import ir.farbod.humanresource.exception.RequestException;
 import ir.farbod.humanresource.repository.PersonRepository;
 import ir.farbod.humanresource.repository.SchoolGradeRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class PersonService {
 
     @Autowired
@@ -65,7 +69,7 @@ public class PersonService {
         return byIDNumber.get();
     }
 
-    public List<Person> getAll() {
+    public List<Person> getAll() throws Exception {
         try {
             List<Person> all = repository.findAll();
             if (all == null || all.isEmpty())
