@@ -1,13 +1,11 @@
 package ir.farbod.humanresource.service;
 
 import ir.farbod.humanresource.entity.Person;
+import ir.farbod.humanresource.exception.RequestException;
 import ir.farbod.humanresource.repository.PersonRepository;
 import ir.farbod.humanresource.repository.SchoolGradeRepository;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -15,7 +13,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,6 +41,7 @@ class PersonServiceTest {
     }
 
     @Test
+    @DisplayName("Save with not already exists ID Number.")
     void save() {
         // given
         Person person = new Person(
@@ -60,6 +61,28 @@ class PersonServiceTest {
         Person capturedPerson = personArgumentCaptor.getValue();
 
         assertThat(capturedPerson).isEqualTo(person);
+    }
+
+    @Test
+    @DisplayName("Save with already EXISTS ID Number")
+    void save2() {
+        // given
+        Person person = new Person(
+                0L,
+                "Saeed",
+                "Safaeian",
+                "0123456789",
+                null
+        );
+
+        given(personRepository.findByIDNumber(person.getIdNumber())).willReturn(java.util.Optional.of(new Person()));
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.save(person))
+                .isInstanceOf(RequestException.class)
+                .hasMessageContaining("ID Number " + person.getIdNumber() + " already exists.");
+
     }
 
     @Test
