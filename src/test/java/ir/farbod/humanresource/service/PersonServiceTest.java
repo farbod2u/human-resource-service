@@ -57,9 +57,9 @@ class PersonServiceTest {
         // then
         ArgumentCaptor<Person> personArgumentCaptor = ArgumentCaptor.forClass(Person.class);
         verify(personRepository).save(personArgumentCaptor.capture());
-        Person captoredPerson = personArgumentCaptor.getValue();
+        Person capturedPerson = personArgumentCaptor.getValue();
 
-        assertThat(captoredPerson).isEqualTo(person);
+        assertThat(capturedPerson).isEqualTo(person);
     }
 
     @Test
