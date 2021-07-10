@@ -29,4 +29,9 @@ public class PersonController {
         return service.save(entity);
     }
 
+    @GetMapping("/getbyidnumber/{idnumber}")
+    public Person getByIDNumber(@PathVariable("idnumber") String idNumber){
+        return service.getByIDNumber(idNumber);
+    }
+
 }

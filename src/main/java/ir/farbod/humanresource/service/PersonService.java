@@ -4,6 +4,7 @@ import ir.farbod.humanresource.entity.Person;
 import ir.farbod.humanresource.entity.PersonSchoolGrade;
 import ir.farbod.humanresource.entity.SchoolGrade;
 import ir.farbod.humanresource.exception.EntityNotFoundException;
+import ir.farbod.humanresource.exception.RequestException;
 import ir.farbod.humanresource.repository.PersonRepository;
 import ir.farbod.humanresource.repository.SchoolGradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class PersonService {
 
     public Person save(Person entity) {
         try {
+            Optional<Person> byIDNumber = repository.findByIDNumber(entity.getIdNumber());
+            if (byIDNumber.isPresent())
+                throw new RequestException("ID Number " + entity.getIdNumber() + " already exists.");
             List<PersonSchoolGrade> schoolGrades = entity.getPersonSchoolGrades();
             if (schoolGrades != null) {
                 entity.setPersonSchoolGrades(new ArrayList<>());
@@ -39,8 +43,7 @@ public class PersonService {
                 });
             }
 
-            Person res = repository.save(entity);
-            return res;
+            return repository.save(entity);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -53,6 +56,13 @@ public class PersonService {
             return byId.get();
         else
             throw new EntityNotFoundException(id);
+    }
+
+    public Person getByIDNumber(String idNumber){
+        Optional<Person> byIDNumber = repository.findByIDNumber(idNumber);
+        if(byIDNumber.isEmpty())
+            throw new EntityNotFoundException("Person with ID Number " + idNumber + " not found");
+        return byIDNumber.get();
     }
 
     public List<Person> getAll() {
