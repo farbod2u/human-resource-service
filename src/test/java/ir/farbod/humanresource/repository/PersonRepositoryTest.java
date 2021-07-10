@@ -1,7 +1,10 @@
 package ir.farbod.humanresource.repository;
 
 import ir.farbod.humanresource.entity.Person;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -13,10 +16,16 @@ class PersonRepositoryTest {
     @Autowired
     private PersonRepository repository;
 
+    @AfterEach
+    void tearDown() {
+        repository.deleteAll();
+    }
+
     @Test
+    @DisplayName("Test if should find person by its ID Number")
     void findByIDNumber() {
         // given
-        String idNumber = "0123456789";
+        String idNumber = "1123456789";
         Person person = new Person(
                 0L,
                 "SaeedTest",
@@ -30,6 +39,19 @@ class PersonRepositoryTest {
 
         // then
         assertThat(result).isTrue();
-
     }
+
+    @Test
+    @DisplayName("Test if shouldn't find person by its ID Number")
+    void not_findByIDNumber() {
+        // given
+        String idNumber = "1123456789";
+
+        // when
+        boolean result = repository.findByIDNumber(idNumber).isPresent();
+
+        // then
+        assertThat(result).isFalse();
+    }
+
 }
