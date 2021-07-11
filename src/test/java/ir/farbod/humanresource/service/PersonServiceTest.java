@@ -12,10 +12,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -75,14 +80,14 @@ class PersonServiceTest {
                 null
         );
 
-        given(personRepository.findByIDNumber(person.getIdNumber())).willReturn(java.util.Optional.of(new Person()));
+        given(personRepository.findByIDNumber(anyString())).willReturn(java.util.Optional.of(new Person()));
 
         // when
         // then
         assertThatThrownBy(() -> underTest.save(person))
                 .isInstanceOf(RequestException.class)
                 .hasMessageContaining("ID Number " + person.getIdNumber() + " already exists.");
-
+        verify(personRepository, never()).save(any());
     }
 
     @Test
@@ -95,16 +100,33 @@ class PersonServiceTest {
     void getByIDNumber() {
     }
 
+    @SneakyThrows
     @Test
+    @DisplayName("Get all persons.")
     void getAll() {
+        // given
+        ArrayList<Person> t = new ArrayList<>();
+        t.add(new Person());
+        given(personRepository.findAll()).willReturn(
+                t
+        );
+
         // when
+        underTest.getAll();
 
-        try {
-            underTest.getAll();
-        } catch (Exception e) {
-            // do nothing
-        }
+        // then
+        verify(personRepository).findAll();
+    }
 
+    @SneakyThrows
+    @Test
+    @DisplayName("Get all persons, but there are not persons.")
+    void getAll2() {
+        // given
+
+
+        // when
+        underTest.getAll();
 
         // then
         verify(personRepository).findAll();
