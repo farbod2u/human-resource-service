@@ -1,6 +1,7 @@
 package ir.farbod.humanresource.service;
 
 import ir.farbod.humanresource.entity.Person;
+import ir.farbod.humanresource.exception.EntityNotFoundException;
 import ir.farbod.humanresource.exception.RequestException;
 import ir.farbod.humanresource.repository.PersonRepository;
 import ir.farbod.humanresource.repository.SchoolGradeRepository;
@@ -122,11 +123,12 @@ class PersonServiceTest {
     void getAll2() {
         // given
 
-
         // when
-        underTest.getAll();
 
         // then
-        verify(personRepository).findAll();
+        assertThatThrownBy(() -> underTest.getAll())
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("Data not found.");
+
     }
 }
