@@ -27,31 +27,26 @@ public class PersonService {
     @Autowired
     private SchoolGradeRepository schoolGradeRepository;
 
-    public Person save(Person entity) {
-        try {
-            Optional<Person> byIDNumber = repository.findByIDNumber(entity.getIdNumber());
-            if (byIDNumber.isPresent())
-                throw new RequestException("ID Number " + entity.getIdNumber() + " already exists.");
-            List<PersonSchoolGrade> schoolGrades = entity.getPersonSchoolGrades();
-            if (schoolGrades != null) {
-                entity.setPersonSchoolGrades(new ArrayList<>());
-                schoolGrades.forEach(p -> {
-                    Optional<SchoolGrade> p2 = schoolGradeRepository.findById(p.getSchoolGrade().getId());
-                    if (p2.isPresent()) {
-                        var p3 = new PersonSchoolGrade();
-                        p3.setPerson(entity);
-                        p3.setSchoolGrade(p2.get());
-                        p3.setGraduateDate(p.getGraduateDate());
-                        entity.getPersonSchoolGrades().add(p3);
-                    }
-                });
-            }
-
-            return repository.save(entity);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
+    public Person save(Person entity) throws Exception {
+        Optional<Person> byIDNumber = repository.findByIDNumber(entity.getIdNumber());
+        if (byIDNumber.isPresent())
+            throw new RequestException("ID Number " + entity.getIdNumber() + " already exists.");
+        List<PersonSchoolGrade> schoolGrades = entity.getPersonSchoolGrades();
+        if (schoolGrades != null) {
+            entity.setPersonSchoolGrades(new ArrayList<>());
+            schoolGrades.forEach(p -> {
+                Optional<SchoolGrade> p2 = schoolGradeRepository.findById(p.getSchoolGrade().getId());
+                if (p2.isPresent()) {
+                    var p3 = new PersonSchoolGrade();
+                    p3.setPerson(entity);
+                    p3.setSchoolGrade(p2.get());
+                    p3.setGraduateDate(p.getGraduateDate());
+                    entity.getPersonSchoolGrades().add(p3);
+                }
+            });
         }
+
+        return repository.save(entity);
     }
 
     public Person get(Long id) {
@@ -62,23 +57,18 @@ public class PersonService {
             throw new EntityNotFoundException(id);
     }
 
-    public Person getByIDNumber(String idNumber){
+    public Person getByIDNumber(String idNumber) {
         Optional<Person> byIDNumber = repository.findByIDNumber(idNumber);
-        if(byIDNumber.isEmpty())
+        if (byIDNumber.isEmpty())
             throw new EntityNotFoundException("Person with ID Number " + idNumber + " not found");
         return byIDNumber.get();
     }
 
     public List<Person> getAll() throws Exception {
-        try {
-            List<Person> all = repository.findAll();
-            if (all == null || all.isEmpty())
-                throw new EntityNotFoundException("Data not found.");
-            return all;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        List<Person> all = repository.findAll();
+        if (all.isEmpty())
+            throw new EntityNotFoundException("Data not found.");
+        return all;
     }
 
 }

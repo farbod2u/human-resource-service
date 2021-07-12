@@ -27,7 +27,7 @@ public class PersonController {
     }
 
     @PostMapping("/save")
-    public Person save(@RequestBody Person entity){
+    public Person save(@RequestBody Person entity) throws Exception {
         return service.save(entity);
     }
 

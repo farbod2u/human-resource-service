@@ -15,17 +15,17 @@ public class SchoolGradeController {
     private SchoolGradeService service;
 
     @PostMapping("/save")
-    public SchoolGrade save(@RequestBody SchoolGrade entity) {
+    public SchoolGrade save(@RequestBody SchoolGrade entity) throws Exception {
         return service.save(entity);
     }
 
     @GetMapping
-    public List<SchoolGrade> getAll() {
+    public List<SchoolGrade> getAll() throws Exception {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public SchoolGrade get(@PathVariable("id") Long schoolGradeId) {
+    public SchoolGrade get(@PathVariable("id") Long schoolGradeId) throws Exception {
         return service.get(schoolGradeId);
     }
 }
