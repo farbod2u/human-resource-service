@@ -12,10 +12,14 @@ import java.util.Optional;
 @Service
 public class SchoolGradeService {
 
-    @Autowired
-    private SchoolGradeRepository repository;
+    private final SchoolGradeRepository repository;
 
-    public SchoolGrade save(SchoolGrade entity) throws Exception {
+    @Autowired
+    public SchoolGradeService(SchoolGradeRepository repository) {
+        this.repository = repository;
+    }
+
+    public SchoolGrade save(SchoolGrade entity) {
         return repository.save(entity);
     }
 
@@ -29,7 +33,7 @@ public class SchoolGradeService {
     public SchoolGrade get(Long id) throws Exception {
         Optional<SchoolGrade> byId = repository.findById(id);
         if (byId.isEmpty())
-            throw new EntityNotFoundException("SchoolGrade with ID = " + id.toString() + " not found.");
+            throw new EntityNotFoundException("SchoolGrade with ID = " + id + " not found.");
         return byId.get();
     }
 }

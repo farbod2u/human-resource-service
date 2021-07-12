@@ -17,15 +17,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
 public class PersonService {
 
-    @Autowired
     private PersonRepository repository;
+    private SchoolGradeRepository schoolGradeRepository;
 
     @Autowired
-    private SchoolGradeRepository schoolGradeRepository;
+    public PersonService(PersonRepository repository, SchoolGradeRepository schoolGradeRepository) {
+        this.repository = repository;
+        this.schoolGradeRepository = schoolGradeRepository;
+    }
 
     public Person save(Person entity) throws Exception {
         Optional<Person> byIDNumber = repository.findByIDNumber(entity.getIdNumber());
