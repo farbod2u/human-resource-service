@@ -11,11 +11,15 @@ import java.util.List;
 @RequestMapping("/schoolgrade")
 public class SchoolGradeController {
 
+    private final SchoolGradeService service;
+
     @Autowired
-    private SchoolGradeService service;
+    public SchoolGradeController(SchoolGradeService service) {
+        this.service = service;
+    }
 
     @PostMapping("/save")
-    public SchoolGrade save(@RequestBody SchoolGrade entity) throws Exception {
+    public SchoolGrade save(@RequestBody SchoolGrade entity) {
         return service.save(entity);
     }
 

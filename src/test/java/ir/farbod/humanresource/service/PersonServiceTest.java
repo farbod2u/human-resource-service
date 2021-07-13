@@ -33,6 +33,8 @@ class PersonServiceTest {
     private PersonRepository personRepository;
     @Mock
     private SchoolGradeRepository schoolGradeRepository;
+    @Mock
+    private SchoolGradeService schoolGradeService;
     private PersonService underTest;
 
     //private AutoCloseable autoCloseable;
@@ -40,7 +42,7 @@ class PersonServiceTest {
     @BeforeEach
     void setUp() {
         //autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new PersonService(personRepository, schoolGradeRepository);
+        underTest = new PersonService(personRepository, schoolGradeRepository, schoolGradeService);
     }
 
     @AfterEach

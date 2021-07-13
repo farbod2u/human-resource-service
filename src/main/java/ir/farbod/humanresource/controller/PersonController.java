@@ -12,28 +12,38 @@ import java.util.List;
 @RequestMapping("/person")
 public class PersonController {
 
-    @Autowired
     private PersonService service;
 
+    @Autowired
+    public PersonController(PersonService service) {
+        this.service = service;
+    }
+
     @GetMapping("/{personId}")
-    public Person get(@PathVariable("personId") Long id){
+    public Person get(@PathVariable("personId") Long id) {
         return service.get(id);
     }
 
     @SneakyThrows
     @GetMapping
-    public List<Person> getAll(){
+    public List<Person> getAll() {
         return service.getAll();
     }
 
+    @SneakyThrows
     @PostMapping("/save")
-    public Person save(@RequestBody Person entity) throws Exception {
+    public Person save(@RequestBody Person entity) {
         return service.save(entity);
     }
 
     @GetMapping("/getbyidnumber/{idnumber}")
-    public Person getByIDNumber(@PathVariable("idnumber") String idNumber){
+    public Person getByIDNumber(@PathVariable("idnumber") String idNumber) {
         return service.getByIDNumber(idNumber);
     }
 
+    @SneakyThrows
+    @PutMapping("/update")
+    public Person update(@RequestBody Person entity) {
+        return service.update(entity);
+    }
 }

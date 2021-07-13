@@ -7,11 +7,10 @@ import ir.farbod.humanresource.exception.EntityNotFoundException;
 import ir.farbod.humanresource.exception.RequestException;
 import ir.farbod.humanresource.repository.PersonRepository;
 import ir.farbod.humanresource.repository.SchoolGradeRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,13 +18,15 @@ import java.util.Optional;
 @Service
 public class PersonService {
 
-    private PersonRepository repository;
-    private SchoolGradeRepository schoolGradeRepository;
+    private final PersonRepository repository;
+    private final SchoolGradeRepository schoolGradeRepository;
+    private final SchoolGradeService schoolGradeService;
 
     @Autowired
-    public PersonService(PersonRepository repository, SchoolGradeRepository schoolGradeRepository) {
+    public PersonService(PersonRepository repository, SchoolGradeRepository schoolGradeRepository, SchoolGradeService schoolGradeService) {
         this.repository = repository;
         this.schoolGradeRepository = schoolGradeRepository;
+        this.schoolGradeService = schoolGradeService;
     }
 
     public Person save(Person entity) throws Exception {
@@ -70,6 +71,24 @@ public class PersonService {
         if (all.isEmpty())
             throw new EntityNotFoundException("Data not found.");
         return all;
+    }
+
+    @Transactional(rollbackOn = {Exception.class})
+    public Person update(Person entity) throws Exception {
+        Person person = get(entity.getId());
+        person.setFirstName(entity.getFirstName());
+        person.setLastName(entity.getLastName());
+        person.setIdNumber(entity.getIdNumber());
+
+        SchoolGrade schoolGrade = schoolGradeService.get(entity.getPersonSchoolGrades().get(0).getSchoolGrade().getId());
+        PersonSchoolGrade personSchoolGrade = new PersonSchoolGrade();
+        personSchoolGrade.setPerson(person);
+        personSchoolGrade.setSchoolGrade(schoolGrade);
+        personSchoolGrade.setGraduateDate(entity.getPersonSchoolGrades().get(0).getGraduateDate());
+
+        person.getPersonSchoolGrades().add(personSchoolGrade);
+
+        return person;
     }
 
 }
