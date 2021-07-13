@@ -6,7 +6,6 @@ import ir.farbod.humanresource.entity.SchoolGrade;
 import ir.farbod.humanresource.exception.EntityNotFoundException;
 import ir.farbod.humanresource.exception.RequestException;
 import ir.farbod.humanresource.repository.PersonRepository;
-import ir.farbod.humanresource.repository.SchoolGradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +18,11 @@ import java.util.Optional;
 public class PersonService {
 
     private final PersonRepository repository;
-    private final SchoolGradeRepository schoolGradeRepository;
     private final SchoolGradeService schoolGradeService;
 
     @Autowired
-    public PersonService(PersonRepository repository, SchoolGradeRepository schoolGradeRepository, SchoolGradeService schoolGradeService) {
+    public PersonService(PersonRepository repository, SchoolGradeService schoolGradeService) {
         this.repository = repository;
-        this.schoolGradeRepository = schoolGradeRepository;
         this.schoolGradeService = schoolGradeService;
     }
 
@@ -36,16 +33,13 @@ public class PersonService {
         List<PersonSchoolGrade> schoolGrades = entity.getPersonSchoolGrades();
         if (schoolGrades != null) {
             entity.setPersonSchoolGrades(new ArrayList<>());
-            schoolGrades.forEach(p -> {
-                Optional<SchoolGrade> p2 = schoolGradeRepository.findById(p.getSchoolGrade().getId());
-                if (p2.isPresent()) {
-                    var p3 = new PersonSchoolGrade();
-                    p3.setPerson(entity);
-                    p3.setSchoolGrade(p2.get());
-                    p3.setGraduateDate(p.getGraduateDate());
-                    entity.getPersonSchoolGrades().add(p3);
-                }
-            });
+            for (PersonSchoolGrade p : schoolGrades) {
+                var p3 = new PersonSchoolGrade();
+                p3.setPerson(entity);
+                p3.setSchoolGrade(schoolGradeService.get(p.getSchoolGrade().getId()));
+                p3.setGraduateDate(p.getGraduateDate());
+                entity.getPersonSchoolGrades().add(p3);
+            }
         }
 
         return repository.save(entity);
@@ -80,13 +74,15 @@ public class PersonService {
         person.setLastName(entity.getLastName());
         person.setIdNumber(entity.getIdNumber());
 
-        SchoolGrade schoolGrade = schoolGradeService.get(entity.getPersonSchoolGrades().get(0).getSchoolGrade().getId());
-        PersonSchoolGrade personSchoolGrade = new PersonSchoolGrade();
-        personSchoolGrade.setPerson(person);
-        personSchoolGrade.setSchoolGrade(schoolGrade);
-        personSchoolGrade.setGraduateDate(entity.getPersonSchoolGrades().get(0).getGraduateDate());
+        if(entity.getPersonSchoolGrades() != null && !entity.getPersonSchoolGrades().isEmpty()) {
+            SchoolGrade schoolGrade = schoolGradeService.get(entity.getPersonSchoolGrades().get(0).getSchoolGrade().getId());
+            PersonSchoolGrade personSchoolGrade = new PersonSchoolGrade();
+            personSchoolGrade.setPerson(person);
+            personSchoolGrade.setSchoolGrade(schoolGrade);
+            personSchoolGrade.setGraduateDate(entity.getPersonSchoolGrades().get(0).getGraduateDate());
 
-        person.getPersonSchoolGrades().add(personSchoolGrade);
+            person.getPersonSchoolGrades().add(personSchoolGrade);
+        }
 
         return person;
     }

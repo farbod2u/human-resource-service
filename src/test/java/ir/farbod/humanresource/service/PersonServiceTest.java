@@ -6,22 +6,24 @@ import ir.farbod.humanresource.entity.SchoolGrade;
 import ir.farbod.humanresource.exception.EntityNotFoundException;
 import ir.farbod.humanresource.exception.RequestException;
 import ir.farbod.humanresource.repository.PersonRepository;
-import ir.farbod.humanresource.repository.SchoolGradeRepository;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -32,8 +34,6 @@ class PersonServiceTest {
     @Mock
     private PersonRepository personRepository;
     @Mock
-    private SchoolGradeRepository schoolGradeRepository;
-    @Mock
     private SchoolGradeService schoolGradeService;
     private PersonService underTest;
 
@@ -42,7 +42,7 @@ class PersonServiceTest {
     @BeforeEach
     void setUp() {
         //autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new PersonService(personRepository, schoolGradeRepository, schoolGradeService);
+        underTest = new PersonService(personRepository, schoolGradeService);
     }
 
     @AfterEach
@@ -67,7 +67,7 @@ class PersonServiceTest {
         );
 
         given(personRepository.findByIDNumber(any())).willReturn(Optional.empty());
-        given(schoolGradeRepository.findById(any())).willReturn(Optional.of(new SchoolGrade()));
+        given(schoolGradeService.get(any())).willReturn(new SchoolGrade());
 
         // when
         underTest.save(person);
@@ -186,5 +186,34 @@ class PersonServiceTest {
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessageContaining("Data not found.");
 
+    }
+
+    @SneakyThrows
+    @Test
+    @DisplayName("Update Person Successfully.")
+    void update() {
+        // given
+        ArrayList<PersonSchoolGrade> personSchoolGrades = new ArrayList<>();
+        SchoolGrade schoolGrade = new SchoolGrade();
+        schoolGrade.setId(1L);
+        schoolGrade.setName("first");
+        personSchoolGrades.add(new PersonSchoolGrade(null, schoolGrade, LocalDate.now()));
+
+        Person person = new Person(
+                1L,
+                "Saeed",
+                "Safaeian",
+                "0123456789",
+                personSchoolGrades
+        );
+
+        given(personRepository.findById(person.getId())).willReturn(Optional.of(person));
+        given(schoolGradeService.get(schoolGrade.getId())).willReturn(new SchoolGrade());
+
+        // when
+        Person result = underTest.update(person);
+
+        // then
+        assertThat(result).isEqualTo(person);
     }
 }
