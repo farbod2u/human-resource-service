@@ -13,6 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -35,14 +37,17 @@ class PersonServiceTest {
     private PersonRepository personRepository;
     @Mock
     private SchoolGradeService schoolGradeService;
+    @InjectMocks
     private PersonService underTest;
+    @Captor
+    ArgumentCaptor<Person> personArgumentCaptor;
 
     //private AutoCloseable autoCloseable;
 
     @BeforeEach
     void setUp() {
         //autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new PersonService(personRepository, schoolGradeService);
+        //underTest = new PersonService(personRepository, schoolGradeService);
     }
 
     @AfterEach
@@ -73,7 +78,7 @@ class PersonServiceTest {
         underTest.save(person);
 
         // then
-        ArgumentCaptor<Person> personArgumentCaptor = ArgumentCaptor.forClass(Person.class);
+        //ArgumentCaptor<Person> personArgumentCaptor = ArgumentCaptor.forClass(Person.class);
         verify(personRepository).save(personArgumentCaptor.capture());
         Person capturedPerson = personArgumentCaptor.getValue();
 
