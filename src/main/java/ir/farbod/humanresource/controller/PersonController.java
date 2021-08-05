@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/person")
 public class PersonController {
 
-    private PersonService service;
+    private final PersonService service;
 
     @Autowired
     public PersonController(PersonService service) {

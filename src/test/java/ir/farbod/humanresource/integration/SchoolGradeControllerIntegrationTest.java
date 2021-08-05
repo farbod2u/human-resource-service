@@ -1,4 +1,4 @@
-package ir.farbod.humanresource.controller;
+package ir.farbod.humanresource.integration;
 
 import ir.farbod.humanresource.entity.SchoolGrade;
 import ir.farbod.humanresource.repository.SchoolGradeRepository;
@@ -16,10 +16,10 @@ import org.springframework.test.context.jdbc.Sql;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SchoolGradeControllerIntegratedTest {
+public class SchoolGradeControllerIntegrationTest {
 
     @Autowired
-    TestRestTemplate testRestTemplate;
+    private TestRestTemplate testRestTemplate;
 
     @Autowired
     private SchoolGradeRepository schoolGradeRepository;
