@@ -1,4 +1,4 @@
-package ir.farbod.humanresource.entity;
+package ir.farbod.humanresource.unit_test.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

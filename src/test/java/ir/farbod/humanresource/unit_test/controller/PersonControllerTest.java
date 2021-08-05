@@ -1,8 +1,8 @@
-package ir.farbod.humanresource.controller;
+package ir.farbod.humanresource.unit_test.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ir.farbod.humanresource.entity.Person;
-import ir.farbod.humanresource.service.PersonService;
+import ir.farbod.humanresource.unit_test.entity.Person;
+import ir.farbod.humanresource.unit_test.service.PersonService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,7 @@
-package ir.farbod.humanresource.controller;
+package ir.farbod.humanresource.unit_test.controller;
 
-import ir.farbod.humanresource.entity.Person;
-import ir.farbod.humanresource.service.PersonService;
-import lombok.SneakyThrows;
+import ir.farbod.humanresource.unit_test.entity.Person;
+import ir.farbod.humanresource.unit_test.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

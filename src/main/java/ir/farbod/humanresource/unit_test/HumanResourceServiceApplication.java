@@ -1,4 +1,4 @@
-package ir.farbod.humanresource;
+package ir.farbod.humanresource.unit_test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,6 @@
-package ir.farbod.humanresource.repository;
+package ir.farbod.humanresource.unit_test.repository;
 
-import ir.farbod.humanresource.entity.Person;
+import ir.farbod.humanresource.unit_test.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

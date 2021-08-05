@@ -1,7 +1,7 @@
-package ir.farbod.humanresource.controller;
+package ir.farbod.humanresource.unit_test.controller;
 
-import ir.farbod.humanresource.entity.SchoolGrade;
-import ir.farbod.humanresource.service.SchoolGradeService;
+import ir.farbod.humanresource.unit_test.entity.SchoolGrade;
+import ir.farbod.humanresource.unit_test.service.SchoolGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

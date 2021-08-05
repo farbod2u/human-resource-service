@@ -1,4 +1,4 @@
-package ir.farbod.humanresource.exception.model;
+package ir.farbod.humanresource.unit_test.exception.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

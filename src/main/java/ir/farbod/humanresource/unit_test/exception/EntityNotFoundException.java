@@ -1,4 +1,4 @@
-package ir.farbod.humanresource.exception;
+package ir.farbod.humanresource.unit_test.exception;
 
 public class EntityNotFoundException extends RuntimeException {
 

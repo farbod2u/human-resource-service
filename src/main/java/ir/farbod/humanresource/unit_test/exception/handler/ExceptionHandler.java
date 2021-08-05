@@ -1,8 +1,8 @@
-package ir.farbod.humanresource.exception.handler;
+package ir.farbod.humanresource.unit_test.exception.handler;
 
-import ir.farbod.humanresource.exception.EntityNotFoundException;
-import ir.farbod.humanresource.exception.RequestException;
-import ir.farbod.humanresource.exception.model.ExceptionModel;
+import ir.farbod.humanresource.unit_test.exception.EntityNotFoundException;
+import ir.farbod.humanresource.unit_test.exception.RequestException;
+import ir.farbod.humanresource.unit_test.exception.model.ExceptionModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 
 @ControllerAdvice

@@ -1,13 +1,10 @@
-package ir.farbod.humanresource.controller;
+package ir.farbod.humanresource.unit_test.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ir.farbod.humanresource.entity.SchoolGrade;
-import ir.farbod.humanresource.service.SchoolGradeService;
+import ir.farbod.humanresource.unit_test.entity.SchoolGrade;
+import ir.farbod.humanresource.unit_test.service.SchoolGradeService;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

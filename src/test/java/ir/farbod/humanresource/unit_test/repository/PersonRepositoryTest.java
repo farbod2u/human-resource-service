@@ -1,10 +1,9 @@
-package ir.farbod.humanresource.repository;
+package ir.farbod.humanresource.unit_test.repository;
 
-import ir.farbod.humanresource.entity.Person;
+import ir.farbod.humanresource.unit_test.entity.Person;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 

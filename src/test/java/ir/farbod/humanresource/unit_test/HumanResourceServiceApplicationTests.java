@@ -1,4 +1,4 @@
-package ir.farbod.humanresource;
+package ir.farbod.humanresource.unit_test;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
