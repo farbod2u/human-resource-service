@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -25,6 +26,7 @@ class SchoolGradeServiceTest {
     @Mock
     private SchoolGradeRepository schoolGradeRepository;
 
+    @InjectMocks
     private SchoolGradeService underTest;
 
     @BeforeEach

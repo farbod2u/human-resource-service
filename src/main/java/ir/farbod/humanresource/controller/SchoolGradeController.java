@@ -3,6 +3,8 @@ package ir.farbod.humanresource.controller;
 import ir.farbod.humanresource.entity.SchoolGrade;
 import ir.farbod.humanresource.service.SchoolGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +21,13 @@ public class SchoolGradeController {
     }
 
     @PostMapping("/save")
-    public SchoolGrade save(@RequestBody SchoolGrade entity) {
-        return service.save(entity);
+    public ResponseEntity<SchoolGrade> save(@RequestBody SchoolGrade entity) {
+        return new ResponseEntity<>(service.save(entity),HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<SchoolGrade> getAll() throws Exception {
-        return service.getAll();
+    public ResponseEntity<List<SchoolGrade>> getAll() throws Exception {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

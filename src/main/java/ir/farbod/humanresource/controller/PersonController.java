@@ -4,6 +4,8 @@ import ir.farbod.humanresource.entity.Person;
 import ir.farbod.humanresource.service.PersonService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,16 +26,14 @@ public class PersonController {
         return service.get(id);
     }
 
-    @SneakyThrows
     @GetMapping
-    public List<Person> getAll() {
+    public List<Person> getAll() throws Exception {
         return service.getAll();
     }
 
-    @SneakyThrows
     @PostMapping("/save")
-    public Person save(@RequestBody Person entity) {
-        return service.save(entity);
+    public ResponseEntity<Person> save(@RequestBody Person entity) throws Exception {
+        return new ResponseEntity<>(service.save(entity), HttpStatus.CREATED);
     }
 
     @GetMapping("/getbyidnumber/{idnumber}")
@@ -41,9 +41,8 @@ public class PersonController {
         return service.getByIDNumber(idNumber);
     }
 
-    @SneakyThrows
     @PutMapping("/update")
-    public Person update(@RequestBody Person entity) {
+    public Person update(@RequestBody Person entity) throws Exception {
         return service.update(entity);
     }
 }
