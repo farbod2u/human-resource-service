@@ -1,5 +1,6 @@
 package ir.farbod.humanresource;
 
+import ir.farbod.humanresource.controller.SchoolGradeController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
