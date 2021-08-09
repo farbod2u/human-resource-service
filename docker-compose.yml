@@ -1,0 +1,25 @@
+version: "3"
+services:
+  hr-app:
+    build: .
+    image: human-resource-rest:1.1
+    ports:
+      - "8001:8001"
+    networks:
+      - hr-2-db
+    depends_on:
+      - mysql-db
+    container_name: hr-app
+
+  mysql-db:
+    image: mysql
+    networks:
+      - hr-2-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=sudnxp5698884
+      - MYSQL_DATABASE=human_resource
+    container_name: mysql-db
+
+networks:
+  hr-2-db:
+
